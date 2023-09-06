@@ -29,3 +29,22 @@ model Book {
   author Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId Int
 }
+
+model User {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  email String @unique
+  name String?
+  role String @default("USER")
+  password String
+}
+
+model Logs {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  event String
+  type String
+  user String?
+}

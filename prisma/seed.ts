@@ -1,4 +1,6 @@
 import {db} from "../src/utils/db.server";
+import { faker } from '@faker-js/faker'
+import _ from 'lodash';
 
 type Author = {
     firstName: string;
@@ -10,25 +12,15 @@ type Book = {
     datePublished: Date;
 }
 
+const AMMOUNT = {
+    USERS: 10000
+}
+
 function getAuthors(): Array<Author> {
-    return [
-        {
-            firstName: "qwerty",
-            lastName: "qwe"
-        },
-        {
-            firstName: "asdfgh",
-            lastName: "asd"
-        },
-        {
-            firstName: "zxcvbn",
-            lastName: "zxc"
-        },
-        {
-            firstName: "claudio",
-            lastName: "clau"
-        }
-    ]
+    return _.times(AMMOUNT.USERS, n => ({
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName()
+    }))
 }
 
 function getBooks(): Array<Book> {

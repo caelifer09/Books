@@ -7,13 +7,49 @@ export type Author = {
 }
 
 export const listAuthors = async (): Promise<Author[]> => {
+    const pageSize: number = 100;
+    let records: Author[] = await db.author.findMany({take: 1,select: {
+        id: true,
+        firstName: true,
+        lastName: true
+    } })
+    let cursor: number = 1;
+    while (true) {
+        const pageRecords: Author[] = await db.author.findMany({
+            skip: 1,
+            cursor: {
+                id: cursor
+            },
+            take: pageSize,
+            select: {
+                id: true,
+                firstName: true,
+                lastName: true
+            }
+        })
+        records = records.concat(pageRecords)
+        if (pageRecords.length < pageSize) {
+          break
+        }
+        cursor = pageRecords[pageRecords.length - 1].id
+    }
+    return records
+}
+
+export const pageAuthor = async(skip: number, pagesize: number): Promise<Author[]> => {
     return await db.author.findMany({
+        skip: skip,
+        take: pagesize,
         select: {
             id: true,
             firstName: true,
             lastName: true
         }
     })
+}
+
+export const totalRecords = async (): Promise<number> => {
+    return await db.author.count({})
 }
 
 export const getAuthor = async (id: number): Promise<Author | null> => {
