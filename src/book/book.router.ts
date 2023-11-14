@@ -1,4 +1,4 @@
-import Express, { request } from "express";
+import Express from "express";
 import type { Request, Response } from "express";
 import {body, validationResult} from "express-validator";
 import type {Pagination} from "../utils/utils"
@@ -97,7 +97,7 @@ bookRouter.delete("/:id",checkAuth, async (request:Request, response: Response) 
     try {
         const book = await BookService.getBook(id)
         if (!book) {
-            return response.status(400).json({message: "Book not found"});
+            return response.status(400).json({message: "book not found"});
         }
         await BookService.deleteBook(id)
         const {UserDB} = request

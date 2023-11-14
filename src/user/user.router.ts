@@ -68,7 +68,7 @@ userRoute.post("/",body("email").isString(),
         const hashedPassword = await encode(password)
         const user = {
             email: email,
-            name: name ? name : "usuario no especificado",
+            name: name ? name : "unnamed",
             password: hashedPassword
         }
         try {
